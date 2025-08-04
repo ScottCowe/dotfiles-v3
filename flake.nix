@@ -9,26 +9,28 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
   outputs =
     { self, ... }@inputs:
     {
       nixosConfigurations = {
-        unicorn =
-          let
-            system = "x86_64-linux";
-          in
-          inputs.nixpkgs-unstable.lib.nixosSystem {
-            specialArgs = { inherit inputs; };
-
-            pkgs = import inputs.nixpkgs-unstable { inherit system; };
-            lib = inputs.nixpkgs-unstable.lib;
-
-            modules = [
-
-            ];
-          };
+        # unicorn =
+        #   let
+        #     system = "x86_64-linux";
+        #   in
+        #   inputs.nixpkgs-unstable.lib.nixosSystem {
+        #     specialArgs = { inherit inputs; };
+        #
+        #     pkgs = import inputs.nixpkgs-unstable { inherit system; };
+        #     lib = inputs.nixpkgs-unstable.lib;
+        #
+        #     modules = [
+        #
+        #     ];
+        #   };
 
         heather =
           let
@@ -45,5 +47,11 @@
             ];
           };
       };
+
+      deploy.nodes.heather = import ./hosts/heather/deploy.nix { inherit inputs self; };
+
+      checks = builtins.mapAttrs (
+        system: deployLib: deployLib.deployChecks self.deploy
+      ) inputs.deploy-rs.lib;
     };
 }
