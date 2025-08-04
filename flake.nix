@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -17,11 +22,26 @@
           inputs.nixpkgs-unstable.lib.nixosSystem {
             specialArgs = { inherit inputs; };
 
-            pkgs = import inputs.nixos-unstable { inherit system; };
+            pkgs = import inputs.nixpkgs-unstable { inherit system; };
             lib = inputs.nixpkgs-unstable.lib;
 
             modules = [
 
+            ];
+          };
+
+        heather =
+          let
+            system = "x86_64-linux";
+          in
+          inputs.nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs; };
+
+            pkgs = import inputs.nixpkgs { inherit system; };
+            lib = inputs.nixpkgs.lib;
+
+            modules = [
+              ./hosts/heather/configuration.nix
             ];
           };
       };
