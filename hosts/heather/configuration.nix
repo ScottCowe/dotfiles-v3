@@ -37,6 +37,11 @@
       ];
     };
 
+    nameservers = [
+      "185.12.64.1"
+      "185.12.64.2"
+    ];
+
     defaultGateway = {
       address = "172.31.1.1";
       interface = "eth0";
