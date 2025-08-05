@@ -22,7 +22,7 @@
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          return = "200";
+          return = "307 https://www.youtube.com/watch?v=dQw4w9WgXcQ";
         };
       };
     };
