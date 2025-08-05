@@ -11,6 +11,7 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
     ./disk-config.nix
+    # ./nginx.nix
   ];
 
   system.stateVersion = "25.05";
@@ -19,7 +20,21 @@
   networking.hostName = "heather";
   time.timeZone = "UTC";
 
-  networking.useDHCP = true;
+  networking = {
+    interfaces.eth0 = {
+      ipv4.addresses = [
+        {
+          address = "65.108.219.172";
+        }
+      ];
+
+      ipv6.addresses = [
+        {
+          address = "2a01:4f9:c012:6a09::1";
+        }
+      ];
+    };
+  };
 
   boot.kernelParams = [ "net.ifnames=0" ];
 

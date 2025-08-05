@@ -16,38 +16,9 @@
   outputs =
     { self, ... }@inputs:
     {
-      nixosConfigurations = {
-        # unicorn =
-        #   let
-        #     system = "x86_64-linux";
-        #   in
-        #   inputs.nixpkgs-unstable.lib.nixosSystem {
-        #     specialArgs = { inherit inputs; };
-        #
-        #     pkgs = import inputs.nixpkgs-unstable { inherit system; };
-        #     lib = inputs.nixpkgs-unstable.lib;
-        #
-        #     modules = [
-        #
-        #     ];
-        #   };
+      # nixosConfigurations.unicorn = import ./hosts/unicorn { inherit inputs; };
 
-        heather =
-          let
-            system = "x86_64-linux";
-          in
-          inputs.nixpkgs.lib.nixosSystem {
-            specialArgs = { inherit inputs; };
-
-            pkgs = import inputs.nixpkgs { inherit system; };
-            lib = inputs.nixpkgs.lib;
-
-            modules = [
-              ./hosts/heather/configuration.nix
-            ];
-          };
-      };
-
+      nixosConfigurations.heather = import ./hosts/heather { inherit inputs; };
       deploy.nodes.heather = import ./hosts/heather/deploy.nix { inherit inputs self; };
 
       checks = builtins.mapAttrs (
