@@ -22,7 +22,7 @@
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          return = "200 \"Hello from mywebsite!\"";
+          return = "200";
         };
       };
     };
