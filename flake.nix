@@ -18,6 +18,8 @@
     {
       # nixosConfigurations.unicorn = import ./hosts/unicorn { inherit inputs; };
 
+      nixosConfigurations.selkie = import ./hosts/selkie { inherit inputs; };
+
       nixosConfigurations.heather = import ./hosts/heather { inherit inputs; };
       deploy.nodes.heather = import ./hosts/heather/deploy.nix { inherit inputs self; };
 
