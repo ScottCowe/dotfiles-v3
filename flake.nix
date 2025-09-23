@@ -11,6 +11,8 @@
     };
 
     deploy-rs.url = "github:serokell/deploy-rs";
+
+    cowedev.url = "github:ScottCowe/cowe.dev";
   };
 
   outputs =

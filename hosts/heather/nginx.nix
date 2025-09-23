@@ -22,7 +22,11 @@
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          return = "307 https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+          proxyPass = "http://127.0.0.1:8080";
+          tryFiles = "$uri $uri/ /index.html";
+        };
+        locations."/api" = {
+          proxyPass = "http://127.0.0.1:3000";
         };
       };
     };

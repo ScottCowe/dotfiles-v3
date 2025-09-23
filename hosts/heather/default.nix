@@ -10,6 +10,12 @@ inputs.nixpkgs.lib.nixosSystem {
   lib = inputs.nixpkgs.lib;
 
   modules = [
+    inputs.disko.nixosModules.disko
+    ./disk-config.nix
+
     ./configuration.nix
+    ./nginx.nix
+
+    ./cowedev.nix
   ];
 }

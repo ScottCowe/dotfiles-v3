@@ -9,9 +9,6 @@
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
-    inputs.disko.nixosModules.disko
-    ./disk-config.nix
-    ./nginx.nix
   ];
 
   system.stateVersion = "25.05";
