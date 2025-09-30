@@ -21,9 +21,14 @@
       "cowe.dev" = {
         enableACME = true;
         forceSSL = true;
+        locations."~ \.(html|js|wasm)$" = {
+          proxyPass = "http://127.0.0.1:8080";
+        };
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080";
-          tryFiles = "$uri $uri/ /index.html";
+          extraConfig = ''
+            rewrite .* /index.html break;
+          '';
         };
         locations."/api" = {
           proxyPass = "http://127.0.0.1:3000";

@@ -38,6 +38,9 @@
           enable = true;
           listen = "127.0.0.1:8080";
           root = "${inputs.cowedev.packages.${pkgs.system}.frontend}";
+          configuration.general = {
+            index-files = "";
+          };
         };
 
         systemd.services.cowedev = {
