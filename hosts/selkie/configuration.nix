@@ -21,45 +21,28 @@
     git
   ];
 
-  services.kanata = {
+  services.tailscale.enable = true;
+
+  services.openssh = {
     enable = true;
-
-    keyboards.board = {
-      config = ''
-        (defsrc
-          esc
-          grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-          tab  q    w    e    r    t    y    u    i    o    p    [    ]    
-          caps a    s    d    f    g    h    j    k    l    ;    '    \    ret
-          lsft <    z    x    c    v    b    n    m    ,    .    /    rsft
-          lctl lmet lalt           spc            ralt rctl
-        )
-
-        (deflayer querty 
-          •
-          grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-          tab  q    w    e    r    t    y    u    i    o    p    [    ]    
-          @l1  a    s    d    f    g    h    j    k    l    ;    '    \    ret
-          lsft @tl  z    x    c    v    b    n    m    ,    .    /    rsft
-          lctl lmet lalt           spc            ralt rctl
-        )
-
-        (deflayer layer1 
-          •
-          •    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  •    •    • 
-          •    •    •    •    •    •    •    •    •    •    •    •    •
-          •    •    •    •    •    •    lft  down up   rght •    •    •    • 
-          lsft •    •    •    •    •    •    •    •    •    •    •    rsft 
-          lctl lmet lalt           •              ralt rctl
-        )
-
-        (defalias
-          tl S-grv 
-
-          l1 (tap-hold 200 200 esc (layer-toggle layer1))
-        )
-      '';
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
     };
+  };
+
+  users.users.admin = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJJLV+VlVk+vyV1NBkPxtEGo+MfDzwy7rWenK7DN2tX1 cowe@framework"
+    ];
+  };
+
+  security.sudo = {
+    enable = true;
+    wheelNeedsPassword = false;
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -69,10 +52,15 @@
     networkmanager.enable = true;
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    trusted-users = [
+      "@wheel"
+    ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   system.stateVersion = "25.05";
 
