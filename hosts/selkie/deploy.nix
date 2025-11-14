@@ -1,7 +1,7 @@
 { inputs, self, ... }:
 
 {
-  hostname = "";
+  hostname = "100.118.34.125";
   sshUser = "admin";
   profiles.system = {
     user = "root";

@@ -14,5 +14,6 @@ inputs.nixpkgs-unstable.lib.nixosSystem {
     inputs.disko.nixosModules.disko
     ./disk-config.nix
     ./configuration.nix
+    ./jam
   ];
 }
