@@ -13,6 +13,11 @@
     deploy-rs.url = "github:serokell/deploy-rs";
 
     cowedev.url = "github:ScottCowe/cowe.dev";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
