@@ -2,7 +2,7 @@
   description = "Version 3 of ScottCowe's dotfiles";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     disko = {
@@ -18,21 +18,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs =
-    { self, ... }@inputs:
-    {
-      # nixosConfigurations.unicorn = import ./hosts/unicorn { inherit inputs; };
-
-      nixosConfigurations.selkie = import ./hosts/selkie { inherit inputs; };
-      deploy.nodes.selkie = import ./hosts/selkie/deploy.nix { inherit inputs self; };
-
-      nixosConfigurations.heather = import ./hosts/heather { inherit inputs; };
-      deploy.nodes.heather = import ./hosts/heather/deploy.nix { inherit inputs self; };
-
-      checks = builtins.mapAttrs (
-        system: deployLib: deployLib.deployChecks self.deploy
-      ) inputs.deploy-rs.lib;
-    };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }
