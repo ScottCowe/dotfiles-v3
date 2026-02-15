@@ -9,6 +9,9 @@
       self.nixosModules.thistle-config
 
       self.nixosModules.borg
+      self.nixosModules.sonarr
+      self.nixosModules.radarr
+      self.nixosModules.lidarr
 
       inputs.disko.nixosModules.disko
     ];
