@@ -7,6 +7,9 @@
       self.nixosModules.thistle-hardware
       self.nixosModules.thistle-disks
       self.nixosModules.thistle-config
+
+      self.nixosModules.borg
+
       inputs.disko.nixosModules.disko
     ];
   };
