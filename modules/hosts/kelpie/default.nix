@@ -14,6 +14,11 @@
   flake.nixosModules.kelpie-config =
     { pkgs, ... }:
     {
+      boot.kernelParams = [ "boot.shell_on_fail" ];
+
+      services.qemuGuest.enable = true;
+      services.spice-vdagentd.enable = true;
+
       environment.systemPackages = with pkgs; [
         vim
         git
@@ -22,6 +27,7 @@
       users.users.admin = {
         isNormalUser = true;
         extraGroups = [ "wheel" ];
+        hashedPassword = "$6$Mvu2t2DrKvPqr3AO$C3UtSVcm8DwWGmZjnUGt06V4i49b9HdWbD2ax.LOQLSj.t4tzVMWUPE0sF6gx6CRweu4hPKnOlVYb4iKq7mG.0";
       };
 
       security.sudo = {
@@ -29,7 +35,11 @@
         wheelNeedsPassword = false;
       };
 
-      boot.loader.systemd-boot.enable = true;
+      boot.loader.grub = {
+        enable = true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+      };
 
       networking = {
         hostName = "kelpie";
@@ -54,44 +64,63 @@
     };
 
   flake.nixosModules.kelpie-disks = {
-    disko.devices = {
-      disk = {
-        main = {
-          device = "/dev/vda";
-          type = "disk";
-          content = {
-            type = "gpt";
-            partitions = {
-              ESP = {
-                type = "EF00";
-                size = "1G";
-                content = {
-                  type = "filesystem";
-                  format = "vfat";
-                  mountpoint = "/boot";
-                  mountOptions = [ "umask=0077" ];
-                };
+    disko = {
+      enableConfig = false;
+
+      devices.disk.main = {
+        type = "disk";
+        imageSize = "8G";
+        device = "/dev/vda";
+        content = {
+          type = "gpt";
+          partitions = {
+            boot = {
+              size = "1M";
+              type = "EF02";
+              priority = 0;
+            };
+            ESP = {
+              type = "EF00";
+              size = "1G";
+              priority = 1;
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [
+                  "fmask=0022"
+                  "dmask=0022"
+                ];
               };
-              swap = {
-                size = "2G";
-                content = {
-                  type = "swap";
-                  discardPolicy = "both";
-                  resumeDevice = true;
-                };
-              };
-              root = {
-                size = "100%";
-                content = {
-                  type = "filesystem";
-                  format = "ext4";
-                  mountpoint = "/";
-                };
+            };
+            root = {
+              size = "100%";
+              priority = 2;
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
               };
             };
           };
         };
       };
+    };
+
+    # TODO: Figure out why setting partition labels fails
+
+    fileSystems."/" = {
+      device = "/dev/vda3";
+      fsType = "ext4";
+    };
+
+    fileSystems."/boot" = {
+      device = "/dev/vda2";
+      fsType = "vfat";
+      options = [
+        "fmask=0022"
+        "dmask=0022"
+      ];
     };
   };
 
