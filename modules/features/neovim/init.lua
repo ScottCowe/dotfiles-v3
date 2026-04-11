@@ -15,7 +15,7 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.g.mapleader = ' '
 
-vim.lsp.enable({ 'lua', 'nix' })
+vim.lsp.enable({ 'lua', 'nix', 'rust' })
 
 vim.keymap.set("n", "<Leader>e", "<cmd>Ex %:p:h<CR>")
 vim.keymap.set("n", "<Leader>t", "<cmd>tabnew<CR>")

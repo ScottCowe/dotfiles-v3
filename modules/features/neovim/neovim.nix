@@ -1,10 +1,9 @@
-{ self, inputs, ... }:
+{ inputs, ... }:
 {
   perSystem =
     {
       pkgs,
       lib,
-      self',
       ...
     }:
     {
@@ -16,6 +15,7 @@
             pkgs.lua-language-server
             pkgs.nixd
             pkgs.nixfmt
+            pkgs.rust-analyzer
           ];
 
           env.XDG_DATA_DIRS = toString (
