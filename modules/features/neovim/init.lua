@@ -37,3 +37,9 @@ require('nvim-treesitter.configs').setup({
 
 vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 vim.cmd("colorscheme kanagawa")
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("FileTypeSettings", { clear = true }),
+    pattern = { "nix" },
+    command = "setlocal shiftwidth=2 tabstop=2",
+})
