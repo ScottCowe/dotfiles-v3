@@ -43,3 +43,7 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = { "nix" },
     command = "setlocal shiftwidth=2 tabstop=2",
 })
+
+require('nvim-autopairs').setup()
+require('ibl').setup()
+require('diagflow').setup()

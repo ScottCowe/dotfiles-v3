@@ -33,6 +33,22 @@
                 path = pkgs.vimPlugins.blink-cmp;
               }
               {
+                name = "nvim/site/pack/plugins/start/gitsigns.nvim";
+                path = pkgs.vimPlugins.gitsigns-nvim;
+              }
+              {
+                name = "nvim/site/pack/plugins/start/nvim-autopairs";
+                path = pkgs.vimPlugins.nvim-autopairs;
+              }
+              {
+                name = "nvim/site/pack/plugins/start/indent-blankline-nvim";
+                path = pkgs.vimPlugins.indent-blankline-nvim;
+              }
+              {
+                name = "nvim/site/pack/plugins/start/diagflow-nvim";
+                path = pkgs.vimPlugins.diagflow-nvim;
+              }
+              {
                 name = "nvim/site/pack/plugins/start/nvim-treesitter";
                 path = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
               }
@@ -54,15 +70,18 @@
                   name = "nvim/init.lua";
                   path = ./init.lua;
                 }
-                {
-                  name = "nvim/lua/plugins/lualine.lua";
-                  path = ./lua/plugins/lualine.lua;
-                }
-                {
-                  name = "nvim/lua/plugins/blink.lua";
-                  path = ./lua/plugins/blink.lua;
-                }
               ]
+              ++ (map
+                (x: {
+                  name = "nvim/lua/plugins/${x}";
+                  path = ./plugins/${x};
+                })
+                (
+                  lib.mapAttrsToList (n: v: n) (
+                    lib.filterAttrs (na: va: va == "regular" && lib.hasSuffix ".lua" na) (builtins.readDir ./plugins)
+                  )
+                )
+              )
               ++ (map
                 (x: {
                   name = "nvim/lsp/${x}";
