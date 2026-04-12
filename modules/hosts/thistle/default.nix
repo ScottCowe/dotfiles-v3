@@ -9,9 +9,10 @@
       self.nixosModules.thistle-config
 
       self.nixosModules.borg
-      self.nixosModules.sonarr
-      self.nixosModules.radarr
-      self.nixosModules.lidarr
+      # self.nixosModules.sonarr
+      # self.nixosModules.radarr
+      # self.nixosModules.lidarr
+      self.nixosModules.not-piracy
 
       inputs.disko.nixosModules.disko
     ];
@@ -70,7 +71,7 @@
         ];
       };
 
-      system.stateVersion = "25.05";
+      system.stateVersion = "25.11";
 
       i18n.defaultLocale = "en_US.UTF-8";
 
@@ -88,12 +89,18 @@
             partitions = {
               ESP = {
                 type = "EF00";
-                size = "100M";
+                size = "1G";
                 content = {
                   type = "filesystem";
                   format = "vfat";
                   mountpoint = "/boot";
                   mountOptions = [ "umask=0077" ];
+                };
+              };
+              swap = {
+                size = "8G";
+                content = {
+                  type = "swap";
                 };
               };
               root = {

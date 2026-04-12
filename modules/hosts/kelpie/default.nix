@@ -37,6 +37,7 @@
 
       boot.loader.grub = {
         enable = true;
+        devices = [ "/dev/vda" ];
         efiSupport = true;
         efiInstallAsRemovable = true;
       };
