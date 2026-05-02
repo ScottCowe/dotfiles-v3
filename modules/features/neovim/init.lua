@@ -47,3 +47,9 @@ vim.api.nvim_create_autocmd("FileType", {
 require('nvim-autopairs').setup()
 require('ibl').setup()
 require('diagflow').setup()
+require('lean').setup({
+    mappings = true,
+    graphics = {
+        enabled = true
+    }
+})

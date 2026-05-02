@@ -16,6 +16,7 @@
             pkgs.nixd
             pkgs.nixfmt
             pkgs.rust-analyzer
+            pkgs.resvg
           ];
 
           env.XDG_DATA_DIRS = toString (
@@ -52,6 +53,14 @@
                 {
                   name = "nvim/site/pack/plugins/start/nvim-treesitter";
                   path = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+                }
+                {
+                  name = "nvim/site/pack/plugins/start/lean-nvim";
+                  path = pkgs.vimPlugins.lean-nvim;
+                }
+                {
+                  name = "nvim/site/pack/plugins/start/plenary-nvim";
+                  path = pkgs.vimPlugins.plenary-nvim;
                 }
               ]
               ++ (map
