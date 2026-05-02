@@ -53,3 +53,4 @@ require('lean').setup({
         enabled = true
     }
 })
+require('nvim-ts-autotag').setup()

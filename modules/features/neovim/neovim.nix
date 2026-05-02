@@ -62,6 +62,10 @@
                   name = "nvim/site/pack/plugins/start/plenary-nvim";
                   path = pkgs.vimPlugins.plenary-nvim;
                 }
+                {
+                  name = "nvim/site/pack/plugins/start/nvim-ts-autotag";
+                  path = pkgs.vimPlugins.nvim-ts-autotag;
+                }
               ]
               ++ (map
                 (x: {
