@@ -15,7 +15,7 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.g.mapleader = ' '
 
-vim.lsp.enable({ 'lua', 'nix', 'rust' })
+vim.lsp.enable({ 'lua', 'nix', 'rust', 'ts' })
 
 vim.keymap.set("n", "<Leader>e", "<cmd>Ex %:p:h<CR>")
 vim.keymap.set("n", "<Leader>t", "<cmd>tabnew<CR>")
@@ -53,4 +53,12 @@ require('lean').setup({
         enabled = true
     }
 })
-require('nvim-ts-autotag').setup()
+require('nvim-ts-autotag').setup(
+    {
+        opts = {
+            enable_close = true,
+            enable_rename = true,
+            enable_close_on_slash = false
+        },
+    }
+)

@@ -17,6 +17,7 @@
             pkgs.nixfmt
             pkgs.rust-analyzer
             pkgs.resvg
+            pkgs.typescript-language-server
           ];
 
           env.XDG_DATA_DIRS = toString (
@@ -88,6 +89,7 @@
                   "haskell"
                   "agda"
                   "markdown"
+                  "tsx"
                 ]
               )
             )
