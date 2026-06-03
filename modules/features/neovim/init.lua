@@ -15,7 +15,7 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.g.mapleader = ' '
 
-vim.lsp.enable({ 'lua', 'nix', 'rust', 'ts' })
+vim.lsp.enable({ 'lua', 'nix', 'rust', 'ts', 'svelte' })
 
 vim.keymap.set("n", "<Leader>e", "<cmd>Ex %:p:h<CR>")
 vim.keymap.set("n", "<Leader>t", "<cmd>tabnew<CR>")
@@ -28,12 +28,8 @@ vim.keymap.set({ 'n', 't' }, '<C-j>', '<C-w>j')
 vim.keymap.set({ 'n', 't' }, '<C-k>', '<C-w>k')
 vim.keymap.set({ 'n', 't' }, '<C-l>', '<C-w>l')
 
-require('nvim-treesitter.configs').setup({
-    auto_install = false,
-    highlight = {
-        enable = true,
-    },
-})
+vim.treesitter.language.register('nix', { 'nix' });
+vim.treesitter.language.register('tsx', { 'typescriptreact' });
 
 vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 vim.cmd("colorscheme kanagawa")
@@ -46,19 +42,16 @@ vim.api.nvim_create_autocmd("FileType", {
 
 require('nvim-autopairs').setup()
 require('ibl').setup()
-require('diagflow').setup()
 require('lean').setup({
     mappings = true,
     graphics = {
         enabled = true
     }
 })
-require('nvim-ts-autotag').setup(
-    {
-        opts = {
-            enable_close = true,
-            enable_rename = true,
-            enable_close_on_slash = false
-        },
-    }
-)
+require('nvim-ts-autotag').setup({
+    opts = {
+        enable_close = true,
+        enable_rename = true,
+        enable_close_on_slash = false
+    },
+})

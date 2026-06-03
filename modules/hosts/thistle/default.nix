@@ -9,23 +9,26 @@
       self.nixosModules.thistle-config
 
       self.nixosModules.borg
-      # self.nixosModules.sonarr
-      # self.nixosModules.radarr
-      # self.nixosModules.lidarr
       self.nixosModules.not-piracy
 
       inputs.disko.nixosModules.disko
+      inputs.sops-nix.nixosModules.sops
     ];
   };
 
   flake.nixosModules.thistle-config =
     { pkgs, lib, ... }:
     {
+      sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      sops.defaultSopsFile = ../../../secrets/thistle.yaml;
+
       environment.defaultPackages = lib.mkForce [ ];
       environment.systemPackages = with pkgs; [
         vim
         git
       ];
+
+      services.dbus.implementation = "dbus";
 
       services.tailscale.enable = true;
 

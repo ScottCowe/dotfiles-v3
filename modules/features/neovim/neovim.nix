@@ -18,6 +18,7 @@
             pkgs.rust-analyzer
             pkgs.resvg
             pkgs.typescript-language-server
+            pkgs.svelte-language-server
           ];
 
           env.XDG_DATA_DIRS = toString (
@@ -47,14 +48,10 @@
                   name = "nvim/site/pack/plugins/start/indent-blankline-nvim";
                   path = pkgs.vimPlugins.indent-blankline-nvim;
                 }
-                {
-                  name = "nvim/site/pack/plugins/start/diagflow-nvim";
-                  path = pkgs.vimPlugins.diagflow-nvim;
-                }
-                {
-                  name = "nvim/site/pack/plugins/start/nvim-treesitter";
-                  path = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-                }
+                # {
+                #   name = "nvim/site/pack/plugins/start/nvim-treesitter";
+                #   path = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+                # }
                 {
                   name = "nvim/site/pack/plugins/start/lean-nvim";
                   path = pkgs.vimPlugins.lean-nvim;
@@ -90,6 +87,7 @@
                   "agda"
                   "markdown"
                   "tsx"
+                  "svelte"
                 ]
               )
             )
