@@ -17,8 +17,26 @@
   };
 
   flake.nixosModules.thistle-config =
-    { pkgs, lib, ... }:
     {
+      pkgs,
+      lib,
+      ...
+    }:
+    {
+      networking.firewall.allowedTCPPorts = [ 6767 ];
+
+      systemd.services.lute = {
+        enable = true;
+        description = "lute service";
+        after = [ "network.target" ];
+        wantedBy = [ "default.target" ];
+        serviceConfig = {
+          Type = "simple";
+          Restart = "on-failure";
+          ExecStart = "${self.packages.${pkgs.system}.lute}/bin/lute";
+        };
+      };
+
       sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
       sops.defaultSopsFile = ../../../secrets/thistle.yaml;
 
