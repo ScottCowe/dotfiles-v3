@@ -8,6 +8,7 @@
       self.nixosModules.kelpie-hardware
       self.nixosModules.kelpie-disks
       inputs.disko.nixosModules.disko
+      inputs.preservation.nixosModules.default
     ];
   };
 
@@ -35,12 +36,8 @@
         wheelNeedsPassword = false;
       };
 
-      boot.loader.grub = {
-        enable = true;
-        devices = [ "/dev/vda" ];
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-      };
+      boot.loader.systemd-boot.enable = true;
+      boot.loader.efi.canTouchEfiVariables = true;
 
       networking = {
         hostName = "kelpie";
@@ -64,64 +61,100 @@
       time.timeZone = "London/Europe";
     };
 
-  flake.nixosModules.kelpie-disks = {
-    disko = {
-      enableConfig = false;
+  flake.nixosModules.kelpie-persist = {
+    preservation = {
+      enable = true;
 
-      devices.disk.main = {
-        type = "disk";
-        imageSize = "8G";
-        device = "/dev/vda";
+      preserveAt."/persist" = {
+        directories = [
+          "/etc/nixos"
+          "/lib/var/bluetooth"
+          {
+            directory = "/var/lib/nixos";
+            inInitrd = true;
+          }
+        ];
+
+        files = [
+          {
+            file = "/etc/machine-id";
+            inInitrd = true;
+          }
+        ];
+      };
+    };
+  };
+
+  flake.nixosModules.kelpie-disks = {
+    disko.devices.nodev = {
+      "/" = {
+        fsType = "tmpfs";
+        mountOptions = [
+          "size=25%"
+          "mode=775"
+        ];
+      };
+    };
+
+    disko.devices.disk.main = {
+      device = "/dev/vda";
+      type = "disk";
+
+      content.type = "gpt";
+
+      content.partitions.boot = {
+        name = "boot";
+        size = "1M";
+        type = "EF02";
+      };
+
+      content.partitions.esp = {
+        name = "ESP";
+        size = "1G";
+        type = "EF00";
+
         content = {
-          type = "gpt";
-          partitions = {
-            boot = {
-              size = "1M";
-              type = "EF02";
-              priority = 0;
+          type = "filesystem";
+          format = "vfat";
+          mountpoint = "/boot";
+        };
+      };
+
+      content.partitions.swap = {
+        size = "8G";
+
+        content = {
+          type = "swap";
+          resumeDevice = true;
+        };
+      };
+
+      content.partitions.root = {
+        name = "root";
+        size = "100%";
+
+        content = {
+          type = "btrfs";
+          extraArgs = [ "-f" ];
+
+          subvolumes = {
+            "/persist" = {
+              mountOptions = [
+                "subvol=persist"
+                "noatime"
+              ];
+              mountpoint = "/persist";
             };
-            ESP = {
-              type = "EF00";
-              size = "1G";
-              priority = 1;
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [
-                  "fmask=0022"
-                  "dmask=0022"
-                ];
-              };
-            };
-            root = {
-              size = "100%";
-              priority = 2;
-              content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-              };
+            "/nix" = {
+              mountOptions = [
+                "subvol=nix"
+                "noatime"
+              ];
+              mountpoint = "/nix";
             };
           };
         };
       };
-    };
-
-    # TODO: Figure out why setting partition labels fails
-
-    fileSystems."/" = {
-      device = "/dev/vda3";
-      fsType = "ext4";
-    };
-
-    fileSystems."/boot" = {
-      device = "/dev/vda2";
-      fsType = "vfat";
-      options = [
-        "fmask=0022"
-        "dmask=0022"
-      ];
     };
   };
 
