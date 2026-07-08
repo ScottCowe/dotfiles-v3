@@ -24,7 +24,7 @@
         isNormalUser = true;
         extraGroups = [ "wheel" ];
         hashedPassword = "$6$Mvu2t2DrKvPqr3AO$C3UtSVcm8DwWGmZjnUGt06V4i49b9HdWbD2ax.LOQLSj.t4tzVMWUPE0sF6gx6CRweu4hPKnOlVYb4iKq7mG.0";
-        openssh.authorizedKeys = [
+        openssh.authorizedKeys.keys = [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINYSCl7s0xXsmax2bMqKYWEmIRYMRsYElflPS2/uwJ3x u0_a254@localhost"
         ];
       };
