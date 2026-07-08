@@ -15,11 +15,6 @@
   flake.nixosModules.kelpie-config =
     { pkgs, ... }:
     {
-      boot.kernelParams = [ "boot.shell_on_fail" ];
-
-      services.qemuGuest.enable = true;
-      services.spice-vdagentd.enable = true;
-
       environment.systemPackages = with pkgs; [
         vim
         git
@@ -29,6 +24,9 @@
         isNormalUser = true;
         extraGroups = [ "wheel" ];
         hashedPassword = "$6$Mvu2t2DrKvPqr3AO$C3UtSVcm8DwWGmZjnUGt06V4i49b9HdWbD2ax.LOQLSj.t4tzVMWUPE0sF6gx6CRweu4hPKnOlVYb4iKq7mG.0";
+        openssh.authorizedKeys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINYSCl7s0xXsmax2bMqKYWEmIRYMRsYElflPS2/uwJ3x u0_a254@localhost"
+        ];
       };
 
       security.sudo = {
@@ -54,7 +52,7 @@
         ];
       };
 
-      system.stateVersion = "25.11";
+      system.stateVersion = "26.05";
 
       i18n.defaultLocale = "en_US.UTF-8";
 
@@ -97,7 +95,7 @@
     };
 
     disko.devices.disk.main = {
-      device = "/dev/vda";
+      device = "/dev/sda";
       type = "disk";
 
       content.type = "gpt";
@@ -167,20 +165,22 @@
     }:
     {
       imports = [
-        (modulesPath + "/profiles/qemu-guest.nix")
+        (modulesPath + "/installer/scan/not-detected.nix")
       ];
 
       boot.initrd.availableKernelModules = [
-        "ahci"
         "xhci_pci"
-        "virtio_pci"
-        "sr_mod"
-        "virtio_blk"
+        "ahci"
+        "ehci_pci"
+        "usbhid"
+        "sd_mod"
+        "rtsx_pci_sdmmc"
       ];
       boot.initrd.kernelModules = [ ];
       boot.kernelModules = [ "kvm-amd" ];
       boot.extraModulePackages = [ ];
 
       nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+      hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     };
 }
