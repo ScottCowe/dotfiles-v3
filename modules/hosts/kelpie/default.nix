@@ -9,6 +9,7 @@
       self.nixosModules.kelpie-disks
       self.nixosModules.kelpie-persist
 
+      self.nixosModules.keyd
       self.nixosModules.niri
       # self.nixosModules.neovim
 
@@ -20,6 +21,31 @@
   flake.nixosModules.kelpie-config =
     { pkgs, ... }:
     {
+      hardware.bluetooth.enable = true;
+      hardware.bluetooth.powerOnBoot = true;
+
+      services.blueman.enable = true;
+
+      hardware.bluetooth.settings = {
+        General = {
+          Enable = "Source,Sink,Media,Socket";
+        };
+      };
+
+      security.rtkit.enable = true;
+      services.pipewire = {
+        enable = true;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+        jack.enable = true;
+      };
+
+      hardware.graphics = {
+        enable = true;
+        enable32Bit = true;
+      };
+
       environment.systemPackages = with pkgs; [
         vim
         git

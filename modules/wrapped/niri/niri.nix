@@ -20,6 +20,7 @@
         (inputs.wrappers.wrapperModules.niri.apply {
           inherit pkgs;
           settings = {
+            spawn-at-startup = [ "blueman-applet" ];
             binds = {
               "Mod+Return" = {
                 spawn-sh = lib.getExe pkgs.kitty;
@@ -39,6 +40,12 @@
                 };
               };
               "Mod+Shift+Q".quit = null;
+              "Mod+D" = {
+                spawn-sh = lib.getExe pkgs.fuzzel;
+                _attrs = {
+                  repeat = false;
+                };
+              };
             };
           };
         }).wrapper;
