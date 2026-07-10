@@ -12,6 +12,7 @@
       self.nixosModules.keyd
       self.nixosModules.niri
       # self.nixosModules.neovim
+      self.nixosModules.git
 
       inputs.disko.nixosModules.disko
       inputs.preservation.nixosModules.default
