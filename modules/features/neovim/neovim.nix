@@ -1,5 +1,14 @@
-{ inputs, ... }:
+{ self, inputs, ... }:
 {
+  flake.nixosModules.neovim =
+    { pkgs, ... }:
+    {
+      programs.neovim = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNeovim;
+      };
+    };
+
   perSystem =
     {
       pkgs,
@@ -7,7 +16,7 @@
       ...
     }:
     {
-      packages.neovim = (
+      packages.myNeovim = (
         inputs.wrappers.lib.wrapPackage {
           inherit pkgs;
           package = pkgs.neovim;
@@ -48,10 +57,6 @@
                   name = "nvim/site/pack/plugins/start/indent-blankline-nvim";
                   path = pkgs.vimPlugins.indent-blankline-nvim;
                 }
-                # {
-                #   name = "nvim/site/pack/plugins/start/nvim-treesitter";
-                #   path = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-                # }
                 {
                   name = "nvim/site/pack/plugins/start/lean-nvim";
                   path = pkgs.vimPlugins.lean-nvim;

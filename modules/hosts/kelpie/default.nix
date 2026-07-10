@@ -7,6 +7,11 @@
       self.nixosModules.kelpie-config
       self.nixosModules.kelpie-hardware
       self.nixosModules.kelpie-disks
+      self.nixosModules.kelpie-persist
+
+      self.nixosModules.niri
+      # self.nixosModules.neovim
+
       inputs.disko.nixosModules.disko
       inputs.preservation.nixosModules.default
     ];
@@ -20,13 +25,15 @@
         git
       ];
 
-      users.users.admin = {
+      users.users.root.initialHashedPassword = "$6$UCZpm1HfGnxZ67Rd$FkLVhuL996Y3RE59UHXldEOe4dJaBXnDval0qh3gYRT9dFcJPTn7cjsPRwXBXrUZR/eypSsevho7fBqGomITx0";
+
+      users.users.cowe = {
         isNormalUser = true;
-        extraGroups = [ "wheel" ];
-        hashedPassword = "$6$Mvu2t2DrKvPqr3AO$C3UtSVcm8DwWGmZjnUGt06V4i49b9HdWbD2ax.LOQLSj.t4tzVMWUPE0sF6gx6CRweu4hPKnOlVYb4iKq7mG.0";
-        openssh.authorizedKeys.keys = [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINYSCl7s0xXsmax2bMqKYWEmIRYMRsYElflPS2/uwJ3x u0_a254@localhost"
+        extraGroups = [
+          "wheel"
+          "networkmanager"
         ];
+        initialHashedPassword = "$6$UCZpm1HfGnxZ67Rd$FkLVhuL996Y3RE59UHXldEOe4dJaBXnDval0qh3gYRT9dFcJPTn7cjsPRwXBXrUZR/eypSsevho7fBqGomITx0";
       };
 
       security.sudo = {
@@ -60,6 +67,17 @@
     };
 
   flake.nixosModules.kelpie-persist = {
+    systemd.services.systemd-machine-id-commit = {
+      unitConfig.ConditionPathIsMountPoint = [
+        ""
+        "/persist/etc/machine-id"
+      ];
+      serviceConfig.ExecStart = [
+        ""
+        "systemd-machine-id-setup --commit --root /persist"
+      ];
+    };
+
     preservation = {
       enable = true;
 
@@ -71,19 +89,33 @@
             directory = "/var/lib/nixos";
             inInitrd = true;
           }
+          "/etc/NetworkManager/system-connections/"
         ];
 
         files = [
           {
             file = "/etc/machine-id";
             inInitrd = true;
+            how = "symlink";
           }
         ];
+
+        users.cowe = {
+          directories = [
+            ".ssh"
+            "repos"
+          ];
+
+          files = [ ];
+        };
       };
     };
   };
 
   flake.nixosModules.kelpie-disks = {
+    fileSystems."/nix".neededForBoot = true;
+    fileSystems."/persist".neededForBoot = true;
+
     disko.devices.nodev = {
       "/" = {
         fsType = "tmpfs";
@@ -95,19 +127,12 @@
     };
 
     disko.devices.disk.main = {
-      device = "/dev/sda";
-      type = "disk";
+      device = "/dev/disk/by-id/ata-SanDisk_SD9SN8W256G1014_192674806388";
 
+      type = "disk";
       content.type = "gpt";
 
-      content.partitions.boot = {
-        name = "boot";
-        size = "1M";
-        type = "EF02";
-      };
-
       content.partitions.esp = {
-        name = "ESP";
         size = "1G";
         type = "EF00";
 
@@ -115,6 +140,7 @@
           type = "filesystem";
           format = "vfat";
           mountpoint = "/boot";
+          mountOptions = [ "umask=0077" ];
         };
       };
 
@@ -128,7 +154,6 @@
       };
 
       content.partitions.root = {
-        name = "root";
         size = "100%";
 
         content = {
