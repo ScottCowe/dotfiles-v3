@@ -7,7 +7,7 @@
       self.nixosModules.unicorn-config
       self.nixosModules.unicorn-hardware
       self.nixosModules.unicorn-disks
-      self.nixosModules.unicorn-persist
+      # self.nixosModules.unicorn-persist
 
       self.nixosModules.keyd
       self.nixosModules.niri
