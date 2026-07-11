@@ -1,13 +1,13 @@
 { inputs, self, ... }:
 
 {
-  flake.nixosConfigurations.kelpie = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.unicorn = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [
-      self.nixosModules.kelpie-config
-      self.nixosModules.kelpie-hardware
-      self.nixosModules.kelpie-disks
-      self.nixosModules.kelpie-persist
+      self.nixosModules.unicorn-config
+      self.nixosModules.unicorn-hardware
+      self.nixosModules.unicorn-disks
+      self.nixosModules.unicorn-persist
 
       self.nixosModules.keyd
       self.nixosModules.niri
@@ -22,7 +22,7 @@
     ];
   };
 
-  flake.nixosModules.kelpie-config =
+  flake.nixosModules.unicorn-config =
     { pkgs, ... }:
     {
       hardware.bluetooth.enable = true;
@@ -74,7 +74,7 @@
       boot.loader.efi.canTouchEfiVariables = true;
 
       networking = {
-        hostName = "kelpie";
+        hostName = "unicorn";
         networkmanager.enable = true;
       };
 
@@ -95,7 +95,7 @@
       time.timeZone = "London/Europe";
     };
 
-  flake.nixosModules.kelpie-persist = {
+  flake.nixosModules.unicorn-persist = {
     systemd.services.systemd-machine-id-commit = {
       unitConfig.ConditionPathIsMountPoint = [
         ""
@@ -143,7 +143,7 @@
     };
   };
 
-  flake.nixosModules.kelpie-disks = {
+  flake.nixosModules.unicorn-disks = {
     fileSystems."/nix".neededForBoot = true;
     fileSystems."/persist".neededForBoot = true;
 
@@ -158,7 +158,7 @@
     };
 
     disko.devices.disk.main = {
-      device = "/dev/disk/by-id/ata-SanDisk_SD9SN8W256G1014_192674806388";
+      device = "/dev/nvme0n1";
 
       type = "disk";
       content.type = "gpt";
@@ -176,7 +176,7 @@
       };
 
       content.partitions.swap = {
-        size = "8G";
+        size = "32G";
 
         content = {
           type = "swap";
@@ -212,7 +212,7 @@
     };
   };
 
-  flake.nixosModules.kelpie-hardware =
+  flake.nixosModules.unicorn-hardware =
     {
       config,
       lib,
@@ -225,12 +225,11 @@
       ];
 
       boot.initrd.availableKernelModules = [
+        "nvme"
         "xhci_pci"
-        "ahci"
-        "ehci_pci"
-        "usbhid"
+        "thunderbolt"
+        "usb_storage"
         "sd_mod"
-        "rtsx_pci_sdmmc"
       ];
       boot.initrd.kernelModules = [ ];
       boot.kernelModules = [ "kvm-amd" ];
