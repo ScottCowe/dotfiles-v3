@@ -7,6 +7,8 @@
         enable = true;
         package = self.packages.${pkgs.stdenv.hostPlatform.system}.niri;
       };
+
+      environment.systemPackages = [ pkgs.xwayland-satellite ];
     };
 
   perSystem =
@@ -31,7 +33,7 @@
                   };
                 };
               };
-              "HDMI-A-1" = {
+              "DP-3" = {
                 position = {
                   _attrs = {
                     x = 0;

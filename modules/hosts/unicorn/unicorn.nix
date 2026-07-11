@@ -7,7 +7,7 @@
       self.nixosModules.unicorn-config
       self.nixosModules.unicorn-hardware
       self.nixosModules.unicorn-disks
-      # self.nixosModules.unicorn-persist
+      self.nixosModules.unicorn-persist
 
       self.nixosModules.keyd
       self.nixosModules.niri
@@ -16,6 +16,9 @@
       self.nixosModules.devenv
       self.nixosModules.ly
       self.nixosModules.thunderbird
+      self.nixosModules.mako
+      self.nixosModules.discord
+      self.nixosModules.prismlauncher
 
       inputs.disko.nixosModules.disko
       inputs.preservation.nixosModules.default
@@ -88,6 +91,8 @@
         ];
       };
 
+      nixpkgs.config.allowUnfree = true;
+
       system.stateVersion = "26.05";
 
       i18n.defaultLocale = "en_US.UTF-8";
@@ -135,6 +140,7 @@
             "repos"
             ".config/librewolf"
             ".thunderbird"
+            ".local/share/PrismLauncher"
           ];
 
           files = [ ];
