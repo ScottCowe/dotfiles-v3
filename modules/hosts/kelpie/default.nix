@@ -13,6 +13,9 @@
       self.nixosModules.niri
       # self.nixosModules.neovim
       self.nixosModules.git
+      self.nixosModules.devenv
+      self.nixosModules.ly
+      self.nixosModules.thunderbird
 
       inputs.disko.nixosModules.disko
       inputs.preservation.nixosModules.default
@@ -131,6 +134,8 @@
           directories = [
             ".ssh"
             "repos"
+            ".config/librewolf"
+            ".thunderbird"
           ];
 
           files = [ ];

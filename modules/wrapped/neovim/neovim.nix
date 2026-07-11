@@ -5,7 +5,7 @@
     {
       programs.neovim = {
         enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNeovim;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
       };
     };
 
@@ -16,7 +16,7 @@
       ...
     }:
     {
-      packages.myNeovim = (
+      packages.neovim = (
         inputs.wrappers.lib.wrapPackage {
           inherit pkgs;
           package = pkgs.neovim;
