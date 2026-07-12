@@ -26,6 +26,7 @@
 
             outputs = {
               "eDP-1" = {
+                scale = 2;
                 position = {
                   _attrs = {
                     x = 1920;

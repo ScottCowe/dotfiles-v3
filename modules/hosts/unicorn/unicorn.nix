@@ -11,7 +11,7 @@
 
       self.nixosModules.keyd
       self.nixosModules.niri
-      # self.nixosModules.neovim
+      self.nixosModules.nvim
       self.nixosModules.git
       self.nixosModules.devenv
       self.nixosModules.ly
@@ -141,9 +141,12 @@
             ".config/librewolf"
             ".thunderbird"
             ".local/share/PrismLauncher"
+            ".claude" # its just for work i swear
           ];
 
-          files = [ ];
+          files = [
+            ".claude.json"
+          ];
         };
       };
     };
