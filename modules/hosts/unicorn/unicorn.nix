@@ -139,9 +139,11 @@
             ".ssh"
             "repos"
             ".config/librewolf"
+            ".cache/librewolf"
             ".thunderbird"
             ".local/share/PrismLauncher"
             ".claude" # its just for work i swear
+            ".config/discord"
           ];
 
           files = [
