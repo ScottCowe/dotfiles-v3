@@ -19,6 +19,7 @@
       self.nixosModules.mako
       self.nixosModules.discord
       self.nixosModules.prismlauncher
+      self.nixosModules.mullvad
 
       inputs.disko.nixosModules.disko
       inputs.preservation.nixosModules.default
@@ -28,6 +29,15 @@
   flake.nixosModules.unicorn-config =
     { pkgs, ... }:
     {
+      xdg.portal = {
+        enable = true;
+        xdgOpenUsePortal = true;
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gtk
+          xdg-desktop-portal-gnome
+        ];
+      };
+
       hardware.bluetooth.enable = true;
       hardware.bluetooth.powerOnBoot = true;
 
@@ -55,7 +65,12 @@
 
       environment.systemPackages = with pkgs; [
         vim
+        pavucontrol
+        brightnessctl
       ];
+
+      services.gnome.gnome-keyring.enable = true;
+      security.polkit.enable = true;
 
       users.users.root.initialHashedPassword = "$6$UCZpm1HfGnxZ67Rd$FkLVhuL996Y3RE59UHXldEOe4dJaBXnDval0qh3gYRT9dFcJPTn7cjsPRwXBXrUZR/eypSsevho7fBqGomITx0";
 
@@ -144,10 +159,12 @@
             ".local/share/PrismLauncher"
             ".claude" # its just for work i swear
             ".config/discord"
+            ".local/state/wireplumber"
           ];
 
           files = [
             ".claude.json"
+            ".config/dconf/user"
           ];
         };
       };

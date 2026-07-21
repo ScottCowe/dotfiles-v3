@@ -18,19 +18,51 @@
         let
           packageName = "thing";
 
-          startPlugins = with pkgs.vimPlugins; [ kanagawa-nvim ];
+          lsps = with pkgs; [
+            lua-language-server
+            nixd
+            nixfmt
+            rust-analyzer
+            resvg
+            typescript-language-server
+            svelte-language-server
+          ];
+
+          startPlugins = with pkgs.vimPlugins; [
+            nvim-treesitter.withAllGrammars
+            kanagawa-nvim
+            lualine-nvim
+            blink-cmp
+            gitsigns-nvim
+            nvim-autopairs
+            indent-blankline-nvim
+            lean-nvim
+            plenary-nvim
+            nvim-ts-autotag
+          ];
+
+          foldPlugins = builtins.foldl' (
+            acc: next:
+            acc
+            ++ [
+              next
+            ]
+            ++ (foldPlugins (next.dependencies or [ ]))
+          ) [ ];
+
+          startPluginsWithDeps = lib.unique (foldPlugins startPlugins);
 
           packpath = pkgs.runCommandLocal "packpath" { } ''
             mkdir -p $out/pack/${packageName}/{start,opt}
 
             ${lib.concatMapStringsSep "\n" (
               plugin: "ln -vsfT ${plugin} $out/pack/${packageName}/start/${lib.getName plugin}"
-            ) startPlugins}
+            ) startPluginsWithDeps}
           '';
         in
         (pkgs.symlinkJoin {
           name = "nvim";
-          paths = [ pkgs.neovim-unwrapped ];
+          paths = [ pkgs.neovim-unwrapped ] ++ lsps;
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/nvim \
