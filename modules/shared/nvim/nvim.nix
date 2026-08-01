@@ -60,7 +60,7 @@
             ) startPluginsWithDeps}
           '';
         in
-        (pkgs.symlinkJoin {
+        pkgs.symlinkJoin {
           name = "nvim";
           paths = [ pkgs.neovim-unwrapped ] ++ lsps;
           nativeBuildInputs = [ pkgs.makeWrapper ];
@@ -88,6 +88,6 @@
               platforms
               ;
           };
-        });
+        };
     };
 }

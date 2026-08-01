@@ -10,7 +10,6 @@
       self.nixosModules.unicorn-persist
 
       self.nixosModules.keyd
-      self.nixosModules.niri
       self.nixosModules.nvim
       self.nixosModules.git
       self.nixosModules.devenv
@@ -20,6 +19,8 @@
       self.nixosModules.discord
       self.nixosModules.prismlauncher
       self.nixosModules.mullvad
+      self.nixosModules.hyprland
+      self.nixosModules.librewolf
 
       inputs.disko.nixosModules.disko
       inputs.preservation.nixosModules.default
@@ -33,8 +34,6 @@
         enable = true;
         xdgOpenUsePortal = true;
         extraPortals = with pkgs; [
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-gnome
         ];
       };
 
@@ -67,6 +66,7 @@
         vim
         pavucontrol
         brightnessctl
+        eza
       ];
 
       services.gnome.gnome-keyring.enable = true;

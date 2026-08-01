@@ -1,0 +1,74 @@
+{ self, ... }: {
+  # Can't just do this like a normal person because of some fuckery when trying to override a symlinkJoin'd package
+  # Will fix later (when it becomes a problem)
+  # Config options are taken from nixpkgs
+  flake.nixosModules.hyprland =
+    { pkgs, lib, ... }:
+    let
+      hyprlandPackage = self.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      portalPackage = pkgs.xdg-desktop-portal-hyprland;
+    in
+    {
+      environment = {
+        systemPackages = [
+          hyprlandPackage
+          pkgs.kitty
+          pkgs.fuzzel
+        ];
+
+        # Allows lua stub file to be accessed from /run/current-system/sw/share/hypr
+        pathsToLink = [ "/share/hypr" ];
+      };
+
+      # Hyprland needs permissions to give itself SCHED_RR on startup:
+      # https://github.com/hyprwm/Hyprland/blob/main/src/init/initHelpers.cpp
+      security.wrappers.Hyprland = {
+        owner = "root";
+        group = "root";
+        capabilities = "cap_sys_nice+ep";
+        source = lib.getExe hyprlandPackage;
+      };
+
+      xdg.portal = {
+        enable = true;
+        extraPortals = [ portalPackage ];
+        configPackages = lib.mkDefault [ hyprlandPackage ];
+      };
+
+      # To make the Hyprland session available in DM
+      services.displayManager.sessionPackages = [ hyprlandPackage ];
+
+      security = {
+        polkit.enable = true;
+        pam.services.swaylock = { };
+      };
+
+      programs = {
+        dconf.enable = true;
+        xwayland.enable = true;
+      };
+
+      services.graphical-desktop.enable = true;
+
+      # Window manager only sessions (unlike DEs) don't handle XDG
+      # autostart files, so force them to run the service
+      services.xserver.desktopManager.runXdgAutostartIfNone = true;
+    };
+
+  perSystem = { pkgs, lib, ... }: {
+    packages.hyprland = pkgs.symlinkJoin {
+      name = "hyprland";
+      paths = [
+        pkgs.hyprland
+      ];
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/hyprland \
+              --add-flags '-c' \
+              --add-flags '${./hyprland.lua}' \
+      '';
+      providedSessions = [ "hyprland" ];
+      meta.mainProgram = "hyprland";
+    };
+  };
+}
