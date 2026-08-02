@@ -8,6 +8,7 @@
       let
         configFile = pkgs.writeText "mako-config" ''
           default-timeout=5000
+          ignore-timeout=1
         '';
       in
       (pkgs.symlinkJoin {
