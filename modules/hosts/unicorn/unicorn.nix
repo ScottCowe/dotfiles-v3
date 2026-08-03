@@ -21,6 +21,7 @@
       self.nixosModules.mullvad
       self.nixosModules.hyprland
       self.nixosModules.librewolf
+      self.nixosModules.steam
 
       inputs.disko.nixosModules.disko
       inputs.preservation.nixosModules.default
@@ -33,8 +34,6 @@
       xdg.portal = {
         enable = true;
         xdgOpenUsePortal = true;
-        extraPortals = with pkgs; [
-        ];
       };
 
       hardware.bluetooth.enable = true;
