@@ -23,9 +23,8 @@
           wrapProgram $out/bin/eww \
                 --add-flags '-c' \
                 --add-flags '${configDir}' \
-                --add-flags 'open' \
-                --add-flags 'bar'
         '';
+        meta.mainProgram = "eww";
       };
   };
 }

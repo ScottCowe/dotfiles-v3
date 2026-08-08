@@ -1,5 +1,5 @@
 (defwindow bar 
-    :monitor 0
+    :monitor '["DP-3", "eDP-1"]'
     :stacking "fg"
     :wm-ignore false 
     :exclusive true

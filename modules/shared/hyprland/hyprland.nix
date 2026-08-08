@@ -56,19 +56,51 @@
     };
 
   perSystem = { pkgs, lib, ... }: {
-    packages.hyprland = pkgs.symlinkJoin {
-      name = "hyprland";
-      paths = [
-        pkgs.hyprland
-      ];
-      nativeBuildInputs = [ pkgs.makeWrapper ];
-      postBuild = ''
-        wrapProgram $out/bin/hyprland \
-              --add-flags '-c' \
-              --add-flags '${./hyprland.lua}' \
-      '';
-      providedSessions = [ "hyprland" ];
-      meta.mainProgram = "hyprland";
-    };
+    packages.hyprland =
+      let
+        runOnStartup = [
+          "blueman-applet"
+          "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.bar} open bar"
+        ];
+
+        startupConfig = lib.concatStrings (
+          [
+            "hl.on(\"hyprland.start\", function()\n"
+          ]
+          ++ (map (x: "hl.exec_cmd(\"${x}\")\n") runOnStartup)
+          ++ [
+            "end)"
+          ]
+        );
+
+        configDir = pkgs.runCommand "hyprland-config-dir" { } ''
+          mkdir -p $out
+          cp ${./hyprland.lua} $out/hyprland.lua
+          cp ${./binds.lua} $out/binds.lua
+          cp ${./monitors.lua} $out/monitors.lua
+          touch $out/startup.lua 
+          echo '${startupConfig}' > $out/startup.lua
+        '';
+      in
+      pkgs.symlinkJoin {
+        name = "Hyprland";
+
+        paths = [
+          (pkgs.hyprland.override {
+            withSystemd = false;
+          })
+        ];
+
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+
+        postBuild = ''
+          wrapProgram $out/bin/Hyprland \
+            --add-flags '--config' \
+            --add-flags '${configDir}/hyprland.lua' \
+        '';
+
+        passthru.providedSessions = [ "hyprland" ];
+        meta.mainProgram = "Hyprland";
+      };
   };
 }
