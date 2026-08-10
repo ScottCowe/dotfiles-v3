@@ -12,8 +12,8 @@
       environment = {
         systemPackages = [
           hyprlandPackage
-          pkgs.kitty
-          pkgs.fuzzel
+          pkgs.grim
+          pkgs.slurp
         ];
 
         # Allows lua stub file to be accessed from /run/current-system/sw/share/hypr
@@ -58,27 +58,35 @@
   perSystem = { pkgs, lib, ... }: {
     packages.hyprland =
       let
+        terminal = "${lib.getExe pkgs.kitty}";
+        launcher = "${lib.getExe pkgs.fuzzel}";
+
         runOnStartup = [
           "blueman-applet"
           "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.bar} open bar"
           "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.mako}"
         ];
 
-        startupConfig = lib.concatStrings (
-          [
-            "hl.on(\"hyprland.start\", function()\n"
-          ]
-          ++ (map (x: "hl.exec_cmd(\"${x}\")\n") runOnStartup)
-          ++ [
-            "end)"
-          ]
-        );
+        startupConfig = ''
+          hl.on("hyprland.start", function()
+          ${lib.concatStrings (map (x: "\thl.exec_cmd(\"${x}\")\n") runOnStartup)}
+          end)
+        '';
 
+        # TODO: Try make screenshot work with string interpolation
         configDir = pkgs.runCommand "hyprland-config-dir" { } ''
           mkdir -p $out
+
           cp ${./hyprland.lua} $out/hyprland.lua
+
           cp ${./binds.lua} $out/binds.lua
+          substituteInPlace $out/binds.lua \
+            --replace-fail "terminal" "${terminal}" \
+            --replace-fail "launcher" "${launcher}" \
+            --replace-fail "screenshot" "${lib.getExe pkgs.grim} -g \"\$(${lib.getExe pkgs.slurp})\" - | wl-copy --type image/png" \
+
           cp ${./monitors.lua} $out/monitors.lua
+
           touch $out/startup.lua 
           echo '${startupConfig}' > $out/startup.lua
         '';

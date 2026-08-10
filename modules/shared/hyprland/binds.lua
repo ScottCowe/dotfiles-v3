@@ -1,16 +1,14 @@
-local terminal = "kitty"
-local launcher = "fuzzel"
-
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("terminal"))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(mainMod .. " + M",
     hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(launcher))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("launcher"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("screenshot"))
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + H ", hl.dsp.focus({ direction = "left" }))
