@@ -26,7 +26,6 @@
       self.nixosModules.bluetooth
 
       inputs.disko.nixosModules.disko
-      # inputs.preservation.nixosModules.default
     ];
   };
 
@@ -102,7 +101,7 @@
 
       i18n.defaultLocale = "en_US.UTF-8";
 
-      time.timeZone = "London/Europe";
+      services.automatic-timezoned.enable = true;
     };
 
   flake.nixosModules.unicorn-persist = {
