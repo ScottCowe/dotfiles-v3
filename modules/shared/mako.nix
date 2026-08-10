@@ -9,6 +9,7 @@
         configFile = pkgs.writeText "mako-config" ''
           default-timeout=5000
           ignore-timeout=1
+          background-color=#2e3440
         '';
       in
       (pkgs.symlinkJoin {
@@ -20,6 +21,7 @@
             --add-flags '--config' \
             --add-flags '${configFile}'
         '';
+        meta.mainProgram = "mako";
       });
   };
 }

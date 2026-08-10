@@ -61,6 +61,7 @@
         runOnStartup = [
           "blueman-applet"
           "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.bar} open bar"
+          "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.mako}"
         ];
 
         startupConfig = lib.concatStrings (
