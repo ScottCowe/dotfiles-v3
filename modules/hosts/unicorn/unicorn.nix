@@ -22,9 +22,11 @@
       self.nixosModules.hyprland
       self.nixosModules.librewolf
       self.nixosModules.steam
+      self.nixosModules.persistance
+      self.nixosModules.bluetooth
 
       inputs.disko.nixosModules.disko
-      inputs.preservation.nixosModules.default
+      # inputs.preservation.nixosModules.default
     ];
   };
 
@@ -34,17 +36,6 @@
       xdg.portal = {
         enable = true;
         xdgOpenUsePortal = true;
-      };
-
-      hardware.bluetooth.enable = true;
-      hardware.bluetooth.powerOnBoot = true;
-
-      services.blueman.enable = true;
-
-      hardware.bluetooth.settings = {
-        General = {
-          Enable = "Source,Sink,Media,Socket";
-        };
       };
 
       security.rtkit.enable = true;
@@ -115,59 +106,22 @@
     };
 
   flake.nixosModules.unicorn-persist = {
-    systemd.services.systemd-machine-id-commit = {
-      unitConfig.ConditionPathIsMountPoint = [
-        ""
-        "/persist/etc/machine-id"
-      ];
-      serviceConfig.ExecStart = [
-        ""
-        "systemd-machine-id-setup --commit --root /persist"
-      ];
-    };
+    persistance.enable = true;
 
-    preservation = {
-      enable = true;
+    persistance.dirs = [
+      "/etc/NetworkManager/system-connections/"
+    ];
 
-      preserveAt."/persist" = {
-        directories = [
-          "/etc/nixos"
-          "/lib/var/bluetooth"
-          {
-            directory = "/var/lib/nixos";
-            inInitrd = true;
-          }
-          "/etc/NetworkManager/system-connections/"
-        ];
-
-        files = [
-          {
-            file = "/etc/machine-id";
-            inInitrd = true;
-            how = "symlink";
-          }
-        ];
-
-        users.cowe = {
-          directories = [
-            ".ssh"
-            "repos"
-            ".config/librewolf"
-            ".cache/librewolf"
-            ".thunderbird"
-            ".local/share/PrismLauncher"
-            ".claude" # its just for work i swear
-            ".config/discord"
-            ".local/state/wireplumber"
-          ];
-
-          files = [
-            ".claude.json"
-            ".config/dconf/user"
-          ];
-        };
-      };
-    };
+    persistance.user = "cowe";
+    persistance.userDirs = [
+      ".ssh"
+      "repos"
+      ".claude" # its just for work i swear
+      ".local/state/wireplumber"
+    ];
+    persistance.userFiles = [
+      ".claude.json"
+    ];
   };
 
   flake.nixosModules.unicorn-disks = {
