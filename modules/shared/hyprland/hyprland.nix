@@ -84,7 +84,7 @@
           substituteInPlace $out/binds.lua \
             --replace-fail "terminal" "${terminal}" \
             --replace-fail "launcher" "${launcher}" \
-            --replace-fail "screenshot" "${lib.getExe pkgs.grim} -g \"\$(${lib.getExe pkgs.slurp})\" - | wl-copy --type image/png" \
+            --replace-fail "screenshot" "${lib.getExe pkgs.grim} -g \"\$(${lib.getExe pkgs.slurp})\" - | ${pkgs.wl-clipboard}/bin/wl-copy --type image/png" \
 
           cp ${./monitors.lua} $out/monitors.lua
 
