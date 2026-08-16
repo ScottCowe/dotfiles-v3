@@ -24,6 +24,7 @@
       self.nixosModules.steam
       self.nixosModules.persistance
       self.nixosModules.bluetooth
+      self.nixosModules.claude-code
 
       inputs.disko.nixosModules.disko
     ];
@@ -115,11 +116,7 @@
     persistance.userDirs = [
       ".ssh"
       "repos"
-      ".claude" # its just for work i swear
       ".local/state/wireplumber"
-    ];
-    persistance.userFiles = [
-      ".claude.json"
     ];
   };
 
