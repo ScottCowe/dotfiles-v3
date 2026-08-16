@@ -6,5 +6,12 @@
       dedicatedServer.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
     };
+
+    persistance.userDirs = [
+      ".local/share/Steam"
+      ".steam"
+
+      ".factorio"
+    ];
   };
 }
