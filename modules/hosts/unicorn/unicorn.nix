@@ -25,6 +25,7 @@
       self.nixosModules.persistance
       self.nixosModules.bluetooth
       self.nixosModules.claude-code
+      self.nixosModules.openrocket
 
       inputs.disko.nixosModules.disko
     ];
