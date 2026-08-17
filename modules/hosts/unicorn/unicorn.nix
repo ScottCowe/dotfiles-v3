@@ -26,6 +26,7 @@
       self.nixosModules.bluetooth
       self.nixosModules.claude-code
       self.nixosModules.openrocket
+      self.nixosModules.vlc
 
       inputs.disko.nixosModules.disko
     ];
