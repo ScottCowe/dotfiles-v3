@@ -3,7 +3,7 @@
   flake.nixosModules.nvim = { pkgs, ... }: {
     programs.neovim = {
       enable = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.custom-nvim;
+      package = self.packages.${pkgs.stdenv.hostPlatform.system}.nvim;
     };
   };
 
@@ -14,7 +14,7 @@
       ...
     }:
     {
-      packages.custom-nvim =
+      packages.nvim =
         let
           packageName = "thing";
 
@@ -59,6 +59,19 @@
               plugin: "ln -vsfT ${plugin} $out/pack/${packageName}/start/${lib.getName plugin}"
             ) startPluginsWithDeps}
           '';
+
+          runtimepath = pkgs.runCommandLocal "nvim-runtimepath" { } ''
+            mkdir -p $out
+            cp ${./init.lua} $out/init.lua
+
+            mkdir -p $out/lsp
+
+            ${lib.concatMapStringsSep "\n" (lsp: "cp ${./lsp/${lsp}} $out/lsp/${lsp}") (
+              lib.mapAttrsToList (n: v: n) (
+                lib.filterAttrs (na: va: va == "regular" && lib.hasSuffix ".lua" na) (builtins.readDir ./lsp)
+              )
+            )}
+          '';
         in
         pkgs.symlinkJoin {
           name = "nvim";
@@ -67,9 +80,11 @@
           postBuild = ''
             wrapProgram $out/bin/nvim \
                   --add-flags '-u' \
-                  --add-flags '${./init.lua}' \
+                  --add-flags '${runtimepath}/init.lua' \
                   --add-flags '--cmd' \
                   --add-flags "'set packpath^=${packpath} | set runtimepath^=${packpath}'" \
+                  --add-flags '--cmd' \
+                  --add-flags "'set runtimepath^=${runtimepath}'" \
                   --set-default NVIM_APPNAME nvim-custom
           '';
 
