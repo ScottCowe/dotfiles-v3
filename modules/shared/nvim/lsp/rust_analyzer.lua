@@ -149,6 +149,19 @@ return {
     ---@type lspconfig.settings.rust_analyzer
     settings = {
         ['rust-analyzer'] = {
+            cargo = {
+                buildScripts = { enable = true }
+            },
+            procMacro = {
+                enable = true
+            },
+            -- Cache analysis results to speed up subsequent opens
+            cachePrimate = { enable = true },
+            -- Show diagnostics only for the current file to reduce noise
+            diagnostics = {
+                enable = true,
+                workspace = false
+            },
             lens = {
                 debug = { enable = true },
                 enable = true,
@@ -161,6 +174,12 @@ return {
                 },
                 run = { enable = true },
                 updateTest = { enable = true },
+            },
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
             },
         },
     },
@@ -192,5 +211,12 @@ return {
         vim.api.nvim_buf_create_user_command(bufnr, 'LspCargoReload', function()
             reload_workspace(bufnr)
         end, { desc = 'Reload current cargo workspace' })
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+
+        local opts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
     end,
 }
