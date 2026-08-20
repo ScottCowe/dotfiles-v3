@@ -58,7 +58,7 @@
   perSystem = { pkgs, lib, ... }: {
     packages.hyprland =
       let
-        terminal = "${lib.getExe pkgs.kitty}";
+        terminal = "${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.kitty}";
         launcher = "${lib.getExe pkgs.fuzzel}";
 
         runOnStartup = [
