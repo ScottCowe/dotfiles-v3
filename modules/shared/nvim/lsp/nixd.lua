@@ -1,5 +1,5 @@
 return {
-    cmd = { 'nixd --inlay-hints=true' },
+    cmd = { 'nixd' },
     filetypes = { 'nix' },
     root_markers = { 'flake.nix', '.git' }, --TODO: More root markers
     settings = {
