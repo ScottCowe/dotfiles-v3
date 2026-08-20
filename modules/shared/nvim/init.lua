@@ -20,9 +20,20 @@ vim.cmd("colorscheme kanagawa")
 vim.lsp.enable({ 'lua_ls', 'nixd', 'rust_analyzer', 'ts_ls', 'svelte' })
 
 vim.keymap.set("n", "<Leader>e", "<cmd>NvimTreeToggle<CR>")
-vim.keymap.set("n", "<Leader>t", "<cmd>tabnew<CR>")
-vim.keymap.set("n", "th", "<cmd>tabprevious<CR>")
-vim.keymap.set("n", "tl", "<cmd>tabnext<CR>")
+vim.keymap.set("n", "<C-t>", "<cmd>tabnew<CR>")
+
+-- surely theres a nicer way to do this?
+vim.keymap.set("n", "<Leader>1", "<cmd>tabn 1<CR>")
+vim.keymap.set("n", "<Leader>2", "<cmd>tabn 2<CR>")
+vim.keymap.set("n", "<Leader>3", "<cmd>tabn 3<CR>")
+vim.keymap.set("n", "<Leader>4", "<cmd>tabn 4<CR>")
+vim.keymap.set("n", "<Leader>5", "<cmd>tabn 5<CR>")
+vim.keymap.set("n", "<Leader>6", "<cmd>tabn 6<CR>")
+vim.keymap.set("n", "<Leader>7", "<cmd>tabn 7<CR>")
+vim.keymap.set("n", "<Leader>8", "<cmd>tabn 8<CR>")
+vim.keymap.set("n", "<Leader>9", "<cmd>tabn 9<CR>")
+vim.keymap.set("n", "<Leader>10", "<cmd>tabn 10<CR>")
+
 vim.keymap.set("n", "<leader>h", "<cmd>split<CR>")
 vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>")
 vim.keymap.set({ 'n', 't' }, '<C-h>', '<C-w>h')
