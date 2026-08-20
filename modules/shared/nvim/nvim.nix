@@ -85,7 +85,7 @@
                   --add-flags "'set packpath^=${packpath} | set runtimepath^=${packpath}'" \
                   --add-flags '--cmd' \
                   --add-flags "'set runtimepath^=${runtimepath}'" \
-                  --set-default NVIM_APPNAME nvim-custom
+                  --set-default NVIM_APPNAME nvim
           '';
 
           passthru = {
