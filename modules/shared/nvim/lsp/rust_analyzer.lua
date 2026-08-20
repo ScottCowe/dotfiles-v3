@@ -218,5 +218,19 @@ return {
         vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
         vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
         vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+
+        vim.api.nvim_create_user_command(
+            'SetFeatures',
+            function(opts)
+                local rustAnalyzerSettings = vim.lsp.get_clients({ name = "rust_analyzer" })[1].config.settings
+                if rustAnalyzerSettings ~= nil then
+                    rustAnalyzerSettings["rust-analyzer"].cargo.features = opts.fargs
+                    vim.lsp.enable('rust_analyzer', false)
+                    vim.lsp.config('rust_analyzer', { settings = rustAnalyzerSettings })
+                    vim.lsp.enable('rust_analyzer')
+                end
+            end,
+            { desc = 'Sets rust-analyzer cargo features', nargs = '*' }
+        )
     end,
 }
