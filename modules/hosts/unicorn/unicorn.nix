@@ -105,6 +105,18 @@
       i18n.defaultLocale = "en_US.UTF-8";
 
       services.automatic-timezoned.enable = true;
+
+      fonts.packages = with pkgs; [
+        noto-fonts
+        noto-fonts-cjk-sans
+        noto-fonts-color-emoji
+        liberation_ttf
+        fira-code
+        fira-code-symbols
+        mplus-outline-fonts.githubRelease
+        dina-font
+        proggyfonts
+      ] ++ (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts));
     };
 
   flake.nixosModules.unicorn-persist = {
