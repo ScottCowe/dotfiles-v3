@@ -39,6 +39,8 @@
             lean-nvim
             plenary-nvim
             nvim-ts-autotag
+            nvim-tree-lua
+            nvim-web-devicons
           ];
 
           foldPlugins = builtins.foldl' (
