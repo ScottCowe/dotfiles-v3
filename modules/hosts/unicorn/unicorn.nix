@@ -134,6 +134,7 @@
       ".ssh"
       "repos"
       ".local/state/wireplumber"
+      ".config/cat_installer"
     ];
   };
 
