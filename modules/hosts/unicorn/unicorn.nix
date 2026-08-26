@@ -58,6 +58,7 @@
         pavucontrol
         brightnessctl
         eza
+        socat
       ];
 
       services.gnome.gnome-keyring.enable = true;
@@ -70,6 +71,7 @@
         extraGroups = [
           "wheel"
           "networkmanager"
+          "dialout"
         ];
         initialHashedPassword = "$6$UCZpm1HfGnxZ67Rd$FkLVhuL996Y3RE59UHXldEOe4dJaBXnDval0qh3gYRT9dFcJPTn7cjsPRwXBXrUZR/eypSsevho7fBqGomITx0";
       };
