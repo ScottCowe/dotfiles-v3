@@ -22,7 +22,6 @@
       self.nixosModules.hyprland
       self.nixosModules.librewolf
       self.nixosModules.steam
-      self.nixosModules.persistance
       self.nixosModules.bluetooth
       self.nixosModules.claude-code
       self.nixosModules.openrocket
@@ -123,6 +122,7 @@
     };
 
   flake.nixosModules.unicorn-persist = {
+    imports = [ self.nixosModules.persistance ];
     persistance.enable = true;
 
     persistance.dirs = [

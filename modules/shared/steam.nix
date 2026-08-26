@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   flake.nixosModules.steam = {
     programs.steam = {
@@ -7,6 +8,7 @@
       localNetworkGameTransfers.openFirewall = true;
     };
 
+    imports = [ self.nixosModules.persistance ];
     persistance.userDirs = [
       ".local/share/Steam"
       ".steam"
