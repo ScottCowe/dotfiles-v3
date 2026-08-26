@@ -16,8 +16,6 @@
 
     deploy-rs.url = "github:serokell/deploy-rs";
 
-    cowedev.url = "github:ScottCowe/cowe.dev";
-
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
