@@ -39,6 +39,24 @@
         xdgOpenUsePortal = true;
       };
 
+      environment.etc."xdg/user-dirs.defaults".text = ''
+        DESKTOP=desktop
+        DOWNLOAD=downloads
+        TEMPLATES=templates
+        PUBLICSHARE=public
+        DOCUMENTS=documents
+        MUSIC=media/music
+        PICTURES=media/pictures
+        VIDEOS=media/videos
+      '';
+
+      xdg.mime.defaultApplications = {
+        "application/pdf" = "librewolf.desktop";
+        "x-scheme-handler/http" = "librewolf.desktop";
+        "x-scheme-handler/https" = "librewolf.desktop";
+        "x-scheme-handler/api" = "librewolf.desktop";
+      };
+
       security.rtkit.enable = true;
       services.pipewire = {
         enable = true;
@@ -137,6 +155,8 @@
       "repos"
       ".local/state/wireplumber"
       ".config/cat_installer"
+      "documents"
+      "media"
     ];
   };
 
