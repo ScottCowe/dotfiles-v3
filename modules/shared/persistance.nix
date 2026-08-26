@@ -5,6 +5,8 @@
       cfg = config.persistance;
     in
     {
+      key = "persistance";
+
       imports = [
         inputs.preservation.nixosModules.default
       ];
