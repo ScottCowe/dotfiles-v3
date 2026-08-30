@@ -26,6 +26,7 @@
             resvg
             typescript-language-server
             svelte-language-server
+            jdt-language-server
           ];
 
           startPlugins = with pkgs.vimPlugins; [
@@ -41,6 +42,7 @@
             nvim-ts-autotag
             nvim-tree-lua
             nvim-web-devicons
+            nvim-jdtls
           ];
 
           foldPlugins = builtins.foldl' (
@@ -73,11 +75,21 @@
                 lib.filterAttrs (na: va: va == "regular" && lib.hasSuffix ".lua" na) (builtins.readDir ./lsp)
               )
             )}
+
+            mkdir -p $out/ftplugin 
+
+            ${lib.concatMapStringsSep "\n" (ftplugin: "cp ${./ftplugin/${ftplugin}} $out/ftplugin/${ftplugin}")
+              (
+                lib.mapAttrsToList (n: v: n) (
+                  lib.filterAttrs (na: va: va == "regular" && lib.hasSuffix ".lua" na) (builtins.readDir ./ftplugin)
+                )
+              )
+            }
           '';
         in
         pkgs.symlinkJoin {
           name = "nvim";
-          paths = [ pkgs.neovim-unwrapped ] ++ lsps;
+          paths = [ pkgs.neovim-unwrapped ];
           nativeBuildInputs = [ pkgs.makeWrapper ];
           postBuild = ''
             wrapProgram $out/bin/nvim \
@@ -87,6 +99,7 @@
                   --add-flags "'set packpath^=${packpath} | set runtimepath^=${packpath}'" \
                   --add-flags '--cmd' \
                   --add-flags "'set runtimepath^=${runtimepath}'" \
+                  --prefix PATH : ${lib.makeBinPath lsps} \
                   --set-default NVIM_APPNAME nvim
           '';
 
