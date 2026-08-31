@@ -26,6 +26,7 @@
       self.nixosModules.claude-code
       self.nixosModules.openrocket
       self.nixosModules.vlc
+      self.nixosModules.vintagestory
 
       inputs.disko.nixosModules.disko
     ];
