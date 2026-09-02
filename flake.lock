@@ -214,6 +214,22 @@
     },
     "nixpkgs_4": {
       "locked": {
+        "lastModified": 1785692966,
+        "narHash": "sha256-vUfIeBEfpbAfZ5zjgIkYk7eHBeVfCYVjLbWnMkseYnk=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "643809054d65fdd466a63e3155b8c498cb483c04",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
         "lastModified": 1773734432,
         "narHash": "sha256-IF5ppUWh6gHGHYDbtVUyhwy/i7D261P7fWD1bPefOsw=",
         "owner": "NixOS",
@@ -252,6 +268,7 @@
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs_3",
         "preservation": "preservation",
+        "sonora": "sonora",
         "sops-nix": "sops-nix",
         "wrappers": "wrappers"
       }
@@ -270,6 +287,24 @@
         "owner": "rust-lang",
         "ref": "nightly",
         "repo": "rust-analyzer",
+        "type": "github"
+      }
+    },
+    "sonora": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1788307665,
+        "narHash": "sha256-Bn8x1tYWl7CYGZQdVnj/vAdkwmRHdSoFxJ3jtb+NmeI=",
+        "owner": "nolight132",
+        "repo": "sonora",
+        "rev": "5e9f066492853badbe55d59661d1e1ca81344efb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nolight132",
+        "repo": "sonora",
         "type": "github"
       }
     },
@@ -365,7 +400,7 @@
     },
     "wrappers": {
       "inputs": {
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_5"
       },
       "locked": {
         "lastModified": 1786302707,
