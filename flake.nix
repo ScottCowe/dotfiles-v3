@@ -24,6 +24,8 @@
     };
 
     preservation.url = "github:nix-community/preservation";
+
+    sonora.url = "github:nolight132/sonora";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

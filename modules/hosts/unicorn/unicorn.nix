@@ -27,6 +27,7 @@
       self.nixosModules.openrocket
       self.nixosModules.vlc
       self.nixosModules.vintagestory
+      self.nixosModules.sonora
 
       inputs.disko.nixosModules.disko
     ];
