@@ -28,6 +28,7 @@
       self.nixosModules.vlc
       self.nixosModules.vintagestory
       self.nixosModules.sonora
+      self.nixosModules.chromium
 
       inputs.disko.nixosModules.disko
     ];
