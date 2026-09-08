@@ -14,6 +14,7 @@
       ".steam"
 
       ".factorio"
+      ".Prison Architect"
     ];
   };
 }
