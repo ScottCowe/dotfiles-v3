@@ -28,6 +28,7 @@
               --add-flags "--config" \
               --add-flags "${config}" \
           '';
+          meta.mainProgram = "kitty";
         };
     };
 }
