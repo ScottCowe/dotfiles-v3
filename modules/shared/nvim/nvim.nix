@@ -5,6 +5,9 @@
       enable = true;
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.nvim;
     };
+
+    imports = [ self.nixosModules.persistance ];
+    persistance.userFiles = [ ".local/state/nvim/trust" ];
   };
 
   perSystem =

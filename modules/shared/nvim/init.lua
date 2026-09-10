@@ -15,6 +15,9 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
+vim.opt.exrc = true
+require('vim._core.exrc')
+
 vim.cmd("colorscheme kanagawa")
 
 vim.lsp.enable({ 'lua_ls', 'nixd', 'rust_analyzer', 'ts_ls', 'svelte' })
