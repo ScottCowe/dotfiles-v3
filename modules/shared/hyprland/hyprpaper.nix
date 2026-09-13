@@ -1,10 +1,12 @@
 {
-  perSystem = { pkgs, lib, ... }: {
+  perSystem = { pkgs, ... }: {
     packages.hyprpaper =
       let
         wallpaper = ./jupiter-wallpaper.png;
 
         config = pkgs.writeText "hyprpaper-config" ''
+          splash = false
+
           wallpaper {
               monitor = 
               path = ${wallpaper}
