@@ -23,11 +23,12 @@
         (box :halign "end"
             :spacing 15
             :space-evenly false
-            (battery))))
+            battery)))
 
 (defpoll time :interval "1s"
               :initial "initial-value"  
-  `date +%H:%M:%S`)
+    `date +%H:%M:%S`)
 
-(defwidget battery []
-    "${EWW_BATTERY["BAT1"].capacity}%")
+(defpoll battery :interval "1s"
+                 :initial "initial-value"
+    `python ./scripts/battery.py`)
