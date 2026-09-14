@@ -23,12 +23,17 @@
         (box :halign "end"
             :spacing 15
             :space-evenly false
+            bluetooth
             battery)))
 
 (defpoll time :interval "1s"
-              :initial "initial-value"  
+              :initial ""  
     `date +%H:%M:%S`)
 
 (defpoll battery :interval "1s"
-                 :initial "initial-value"
+                 :initial ""
     `python ./scripts/battery.py`)
+
+(defpoll bluetooth :interval "1s"
+                   :initial ""
+    `python ./scripts/bluetooth.py`)

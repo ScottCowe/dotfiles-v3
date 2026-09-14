@@ -15,6 +15,10 @@
             name = "scripts/battery.py";
             path = ../scripts/battery.py;
           }
+          {
+            name = "scripts/bluetooth.py";
+            path = ../scripts/bluetooth.py;
+          }
         ];
 
         # Anything but installing python systemwide
