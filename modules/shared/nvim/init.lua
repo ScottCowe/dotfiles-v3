@@ -20,7 +20,7 @@ require('vim._core.exrc')
 
 vim.cmd("colorscheme kanagawa")
 
-vim.lsp.enable({ 'lua_ls', 'nixd', 'rust_analyzer', 'ts_ls', 'svelte' })
+vim.lsp.enable({ 'lua_ls', 'nixd', 'rust_analyzer', 'ts_ls', 'svelte', 'hls' })
 
 vim.keymap.set("n", "<Leader>e", "<cmd>NvimTreeToggle<CR>")
 vim.keymap.set("n", "<C-t>", "<cmd>tabnew<CR>")

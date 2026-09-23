@@ -30,6 +30,7 @@
             typescript-language-server
             svelte-language-server
             jdt-language-server
+            haskell-language-server
           ];
 
           startPlugins = with pkgs.vimPlugins; [
