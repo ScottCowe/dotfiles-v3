@@ -149,7 +149,7 @@
     persistance.enable = true;
 
     persistance.dirs = [
-      "/etc/NetworkManager/system-connections/"
+      "/etc/NetworkManager"
     ];
 
     persistance.user = "cowe";
