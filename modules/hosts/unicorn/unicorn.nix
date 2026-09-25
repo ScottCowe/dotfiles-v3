@@ -29,6 +29,7 @@
       self.nixosModules.vintagestory
       self.nixosModules.sonora
       self.nixosModules.chromium
+      self.nixosModules.libreoffice
 
       inputs.disko.nixosModules.disko
     ];
