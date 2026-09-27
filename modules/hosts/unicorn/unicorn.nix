@@ -30,6 +30,7 @@
       self.nixosModules.sonora
       self.nixosModules.chromium
       self.nixosModules.libreoffice
+      self.nixosModules.docker
 
       inputs.disko.nixosModules.disko
     ];
@@ -94,6 +95,7 @@
           "wheel"
           "networkmanager"
           "dialout"
+          "docker"
         ];
         initialHashedPassword = "$6$UCZpm1HfGnxZ67Rd$FkLVhuL996Y3RE59UHXldEOe4dJaBXnDval0qh3gYRT9dFcJPTn7cjsPRwXBXrUZR/eypSsevho7fBqGomITx0";
       };
