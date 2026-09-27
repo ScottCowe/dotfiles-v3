@@ -14,11 +14,14 @@
           hyprlandPackage
           pkgs.grim
           pkgs.slurp
+          pkgs.uwsm
         ];
 
         # Allows lua stub file to be accessed from /run/current-system/sw/share/hypr
         pathsToLink = [ "/share/hypr" ];
       };
+
+      systemd.packages = [ pkgs.uwsm ];
 
       # Hyprland needs permissions to give itself SCHED_RR on startup:
       # https://github.com/hyprwm/Hyprland/blob/main/src/init/initHelpers.cpp
@@ -97,7 +100,7 @@
 
         paths = [
           (pkgs.hyprland.override {
-            withSystemd = false;
+            withSystemd = true;
           })
         ];
 
