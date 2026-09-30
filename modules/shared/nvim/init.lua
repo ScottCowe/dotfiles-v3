@@ -51,6 +51,12 @@ vim.treesitter.language.register('tsx', { 'typescriptreact' });
 vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 vim.cmd("colorscheme kanagawa")
 
+require('nvim_sops').setup({
+    defaults = {
+        ageKeyFile = "/home/cowe/.config/sops/age/keys.txt"
+    }
+})
+
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("FileTypeSettings", { clear = true }),
     pattern = { "nix" },

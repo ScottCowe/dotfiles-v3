@@ -31,6 +31,7 @@
             svelte-language-server
             jdt-language-server
             haskell-language-server
+            sops
           ];
 
           startPlugins = with pkgs.vimPlugins; [
@@ -47,6 +48,7 @@
             nvim-tree-lua
             nvim-web-devicons
             nvim-jdtls
+            nvim-sops
           ];
 
           foldPlugins = builtins.foldl' (
