@@ -13,7 +13,6 @@
       ".local/share/Steam"
       ".steam"
 
-      ".factorio"
       ".Prison Architect"
     ];
   };

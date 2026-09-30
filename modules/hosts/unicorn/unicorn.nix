@@ -1,4 +1,8 @@
-{ inputs, self, ... }:
+{
+  inputs,
+  self,
+  ...
+}:
 
 {
   flake.nixosConfigurations.unicorn = inputs.nixpkgs.lib.nixosSystem {
@@ -31,14 +35,19 @@
       self.nixosModules.chromium
       self.nixosModules.libreoffice
       self.nixosModules.docker
+      self.nixosModules.factorio
 
       inputs.disko.nixosModules.disko
+      inputs.sops-nix.nixosModules.sops
     ];
   };
 
   flake.nixosModules.unicorn-config =
     { pkgs, ... }:
     {
+      sops.age.sshKeyPaths = [ "/home/cowe/.ssh/id_ed25519" ];
+      sops.defaultSopsFile = ../../../secrets/unicorn.yaml;
+
       xdg.portal = {
         enable = true;
         xdgOpenUsePortal = true;
@@ -163,6 +172,7 @@
       ".config/cat_installer"
       "documents"
       "media"
+      ".config/sops"
     ];
   };
 

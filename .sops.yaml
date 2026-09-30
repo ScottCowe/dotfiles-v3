@@ -1,9 +1,11 @@
 keys:
+  - &unicorn_cowe age1f5herhtmrmn3py5g6xjfcaftupqufh4veyssalpr032svz873pnsjr63px
   - &admin_cowe age1t3dj43kvh3vyy5zy4udw4qmaq6usd8ypjlzxf4hfvpkrr492gsuqkww687
   - &server_thistle age1vydleyxutejegxkawm54xp7qss3r62c7nf6m9nrmh9vr8577lauqnqcyje
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
+          - *unicorn_cowe
           - *admin_cowe
           - *server_thistle
