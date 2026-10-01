@@ -35,7 +35,7 @@
       self.nixosModules.chromium
       self.nixosModules.libreoffice
       self.nixosModules.docker
-      self.nixosModules.factorio
+      # self.nixosModules.factorio
 
       inputs.disko.nixosModules.disko
       inputs.sops-nix.nixosModules.sops
