@@ -27,7 +27,6 @@
       self.nixosModules.librewolf
       self.nixosModules.steam
       self.nixosModules.bluetooth
-      self.nixosModules.claude-code
       self.nixosModules.openrocket
       self.nixosModules.vlc
       self.nixosModules.vintagestory
