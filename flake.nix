@@ -24,6 +24,12 @@
     preservation.url = "github:nix-community/preservation";
 
     sonora.url = "github:nolight132/sonora";
+
+    microvm.url = "github:microvm-nix/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
+
+    cowe-dev.url = "github:ScottCowe/cowe.dev";
+    cowe-dev.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
