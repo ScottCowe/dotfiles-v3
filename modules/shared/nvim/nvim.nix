@@ -32,6 +32,7 @@
             jdt-language-server
             haskell-language-server
             sops
+            flutter
           ];
 
           startPlugins = with pkgs.vimPlugins; [
@@ -49,6 +50,8 @@
             nvim-web-devicons
             nvim-jdtls
             nvim-sops
+            flutter-tools-nvim
+            plenary-nvim
           ];
 
           foldPlugins = builtins.foldl' (

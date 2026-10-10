@@ -71,6 +71,9 @@ require('lean').setup({
         enabled = true
     }
 })
+
+require('flutter-tools').setup {}
+
 require('nvim-ts-autotag').setup({
     opts = {
         enable_close = true,
