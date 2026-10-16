@@ -14,6 +14,7 @@
       ".steam"
 
       ".Prison Architect"
+      "The Escapists"
     ];
   };
 }
