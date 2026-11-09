@@ -104,7 +104,7 @@
           })
         ];
 
-        nativeBuildInputs = [ pkgs.makeWrapper ];
+        nativeBuildInputs = [ pkgs.makeBinaryWrapper ];
 
         postBuild = ''
           wrapProgram $out/bin/Hyprland \
