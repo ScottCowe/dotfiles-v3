@@ -36,6 +36,7 @@
       self.nixosModules.docker
       # self.nixosModules.factorio
       self.nixosModules.signal
+      self.nixosModules.gnucash
 
       inputs.disko.nixosModules.disko
       inputs.sops-nix.nixosModules.sops
