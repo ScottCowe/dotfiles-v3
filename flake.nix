@@ -23,8 +23,6 @@
 
     preservation.url = "github:nix-community/preservation";
 
-    sonora.url = "github:nolight132/sonora";
-
     microvm.url = "github:microvm-nix/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
 

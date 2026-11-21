@@ -30,7 +30,6 @@
       self.nixosModules.openrocket
       self.nixosModules.vlc
       self.nixosModules.vintagestory
-      self.nixosModules.sonora
       self.nixosModules.chromium
       self.nixosModules.libreoffice
       self.nixosModules.docker
